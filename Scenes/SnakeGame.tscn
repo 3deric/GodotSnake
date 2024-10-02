@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://cn72lt67wdgig"]
+
+[ext_resource type="Script" path="res://Scripts/SnakeGame.gd" id="1_88f1r"]
+[ext_resource type="PackedScene" uid="uid://beq3uuhjrtjkm" path="res://Scenes/SnakeElement.tscn" id="2_3ys3o"]
+[ext_resource type="PackedScene" uid="uid://cayemcosk1d5a" path="res://Scenes/FoodElement.tscn" id="3_bdr67"]
+[ext_resource type="PackedScene" uid="uid://cjei2cctves2m" path="res://Scenes/SnakeScoreboard.tscn" id="3_drfp6"]
+[ext_resource type="PackedScene" uid="uid://67a61q6xcri3" path="res://Scenes/SnakeGameOver.tscn" id="4_nacl7"]
+
+[node name="SnakeGame" type="Node2D"]
+script = ExtResource("1_88f1r")
+snakeElement = ExtResource("2_3ys3o")
+foodElement = ExtResource("3_bdr67")
+
+[node name="GameOver" parent="." instance=ExtResource("4_nacl7")]
+position = Vector2(115, 118)
+
+[node name="Scoreboard" parent="." instance=ExtResource("3_drfp6")]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+
+[connection signal="restart" from="GameOver" to="." method="_on_game_over_restart"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

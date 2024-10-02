@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cayemcosk1d5a"]
+
+[ext_resource type="Texture2D" uid="uid://b3wv5y00e8n8a" path="res://Sprites/snakeFood.png" id="1_skt37"]
+
+[node name="FoodElement" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(25, 25)
+texture = ExtResource("1_skt37")
