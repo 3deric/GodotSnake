@@ -14,8 +14,10 @@ var score : int = 0
 var isPlaying : bool = false
 var isMoving : bool = false
 var dir : Vector2 = Vector2(0,-1)
+var lastDir : Vector2 = Vector2(0,-1)
 var foodPos : Vector2 = Vector2(-1,-1)
 var foodInstance : Node2D = null
+var generateFood: bool = true
 
 #direction constants
 const dirUp : Vector2 = Vector2(0,-1)
@@ -78,10 +80,18 @@ func _endGame():
 	#display end screen with points and reset functionality
 	
 func _placeFood():
-	var pos = Vector2(int(randf_range(0, gridElements)), int(randf_range(0, gridElements)))
+	var pos = Vector2.ZERO
+	while generateFood:
+		generateFood = false
+		pos = Vector2(int(randf_range(0, gridElements)), int(randf_range(0, gridElements)))
+		for i in snakePos:
+			if pos == i:
+				generateFood = true
+
 	foodPos = pos
 	foodInstance = foodElement.instantiate()
 	add_child(foodInstance)
+	generateFood = true
 	
 func _clearGame():
 	for i in snake.size():
@@ -109,6 +119,7 @@ func _on_timer_timeout():
 	_updateSprites()
 		
 func _move():
+	lastDir = dir
 	snakeOldPos = [] + snakePos
 	if isMoving:
 		snakePos[0] += dir
@@ -154,19 +165,19 @@ func _update():
 		foodInstance.position = foodPos * gridSize + Vector2 (0,1) * gridSize / 2
 	
 func _process(delta):
-	if Input.is_action_just_pressed("Up") and dir != dirDown:
+	if Input.is_action_just_pressed("Up") and lastDir!= dirDown:
 		if !isMoving:
 			isMoving = true
 		dir = dirUp
-	if Input.is_action_just_pressed("Right") and dir != dirLeft:
+	if Input.is_action_just_pressed("Right") and lastDir != dirLeft:
 		if !isMoving:
 			isMoving = true
 		dir = dirRight
-	if Input.is_action_just_pressed("Down") and dir != dirUp:
+	if Input.is_action_just_pressed("Down") and lastDir != dirUp:
 		if !isMoving:
 			isMoving = true
 		dir = dirDown
-	if Input.is_action_just_pressed("Left") and dir != dirRight:
+	if Input.is_action_just_pressed("Left") and lastDir != dirRight:
 		if !isMoving:
 			isMoving = true
 		dir = dirLeft
@@ -190,17 +201,31 @@ func _updateSprites():
 	var tailDir
 	if added:
 		tailDir = snakePos[snake.size()-3] - snakePos[snake.size()-2]
+		print(tailDir)	
 	else:
 		tailDir = snakePos[snake.size()-2] - snakePos[snake.size()-1]
+	
 	if tailDir == dirUp:
-		snake[snake.size()-1].get_node("Sprite2D").texture = sprites[4]
+		if added:
+			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[4]
+		else:
+			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[4]
 	if tailDir == dirRight:
-		snake[snake.size()-1].get_node("Sprite2D").texture = sprites[5]
+		if added:
+			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[5]
+		else:	
+			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[5]
 	if tailDir == dirDown:
-		snake[snake.size()-1].get_node("Sprite2D").texture = sprites[6]
+		if added:
+			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[6]
+		else:
+			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[6]
 	if tailDir == dirLeft:
-		snake[snake.size()-1].get_node("Sprite2D").texture = sprites[7]
-		
+		if added:
+			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[7]
+		else:
+			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[7]
+	
 	#update body
 	for i in snake.size()-1:
 		if i > 0:
