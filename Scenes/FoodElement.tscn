@@ -5,5 +5,5 @@
 [node name="FoodElement" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(25, 25)
+position = Vector2(50, 50)
 texture = ExtResource("1_skt37")

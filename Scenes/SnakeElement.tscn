@@ -1,10 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://beq3uuhjrtjkm"]
 
-[ext_resource type="Texture2D" uid="uid://ct372v3tnxb1k" path="res://icon.svg" id="1_14ox0"]
+[ext_resource type="Texture2D" uid="uid://dwth6060ud0sm" path="res://Sprites/bodyStraight.png" id="1_bdxgf"]
 
 [node name="SnakeElement" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(25, 25)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("1_14ox0")
+position = Vector2(50, 50)
+texture = ExtResource("1_bdxgf")
