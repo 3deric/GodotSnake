@@ -1,28 +1,64 @@
-[gd_scene load_steps=7 format=3 uid="uid://cn72lt67wdgig"]
+[gd_scene load_steps=10 format=3 uid="uid://cn72lt67wdgig"]
 
 [ext_resource type="Script" path="res://Scripts/SnakeGame.gd" id="1_88f1r"]
 [ext_resource type="PackedScene" uid="uid://beq3uuhjrtjkm" path="res://Scenes/SnakeElement.tscn" id="2_3ys3o"]
 [ext_resource type="PackedScene" uid="uid://cayemcosk1d5a" path="res://Scenes/FoodElement.tscn" id="3_bdr67"]
 [ext_resource type="PackedScene" uid="uid://cjei2cctves2m" path="res://Scenes/SnakeScoreboard.tscn" id="3_drfp6"]
 [ext_resource type="PackedScene" uid="uid://67a61q6xcri3" path="res://Scenes/SnakeGameOver.tscn" id="4_nacl7"]
-[ext_resource type="Texture2D" uid="uid://bihpfo60eobjp" path="res://Sprites/background.png" id="6_epryh"]
+[ext_resource type="Texture2D" uid="uid://i7p1rqwkkyk0" path="res://Sprites/tile.png" id="6_188l5"]
+[ext_resource type="AudioStream" uid="uid://cd2rxgwfy5dkm" path="res://Audio/DaDaDum - The Soundlings.mp3" id="7_bh1w2"]
+[ext_resource type="AudioStream" uid="uid://bjf4ib0k7inhk" path="res://Audio/cat-meow-99835.mp3" id="8_pa3c0"]
+[ext_resource type="AudioStream" uid="uid://duh6ejd7u20f2" path="res://Audio/angry-cat-hq-sound-effect-240675.mp3" id="9_bf5ey"]
 
-[node name="SnakeGame" type="Node2D"]
+[node name="SnakeGame" type="Node2D" node_paths=PackedStringArray("audioMeow", "audioLose")]
 script = ExtResource("1_88f1r")
 snakeElement = ExtResource("2_3ys3o")
 foodElement = ExtResource("3_bdr67")
+audioMeow = NodePath("AudioStreamPlayerMeow")
+audioLose = NodePath("AudioStreamPlayerLose")
 
 [node name="GameOver" parent="." instance=ExtResource("4_nacl7")]
-position = Vector2(115, 118)
-
-[node name="Scoreboard" parent="." instance=ExtResource("3_drfp6")]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 500.0
+offset_top = 500.0
+offset_right = 500.0
+offset_bottom = 500.0
+grow_vertical = 0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(500, 550)
-texture = ExtResource("6_epryh")
+[node name="Sprite2DFloor" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(0, 50)
+texture = ExtResource("6_188l5")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1000, 1000)
+
+[node name="Sprite2DWall" type="Sprite2D" parent="."]
+modulate = Color(0.796243, 0.796243, 0.796243, 1)
+texture_repeat = 2
+texture = ExtResource("6_188l5")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1000, 50)
+
+[node name="Scoreboard" parent="." instance=ExtResource("3_drfp6")]
+z_index = 100
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_bh1w2")
+volume_db = -10.0
+autoplay = true
+
+[node name="AudioStreamPlayerMeow" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_pa3c0")
+
+[node name="AudioStreamPlayerLose" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_bf5ey")
 
 [connection signal="restart" from="GameOver" to="." method="_on_game_over_restart"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

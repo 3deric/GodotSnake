@@ -9,6 +9,10 @@ const gridElements : int = 9
 #sprites
 var sprites : Array
 
+#audioplayers
+@export var audioMeow : AudioStreamPlayer
+@export var audioLose : AudioStreamPlayer
+
 #gameplay variables
 var score : int = 0
 var isPlaying : bool = false
@@ -59,6 +63,7 @@ func _loadSprites():
 func _reset():
 	score = 0
 	dir = dirUp
+	lastDir = dir
 	_clearGame()
 	_generateSnake()
 	_placeFood()
@@ -75,6 +80,7 @@ func _start():
 func _endGame():
 	$Timer.stop()
 	$GameOver/Panel.visible = true
+	audioLose.play()
 	isMoving = false;
 	isPlaying = false;
 	#display end screen with points and reset functionality
@@ -103,6 +109,8 @@ func _clearGame():
 	if(foodInstance != null):
 		remove_child(foodInstance)
 		foodInstance.queue_free()
+	isMoving = false
+	isPlaying = false
 	
 func _generateSnake():
 	for i in 3:
@@ -132,8 +140,18 @@ func _move():
 	_updateScore()
 		
 func _outOfBounds():
+	#kill logic
 	if snakePos[0].x < 0 or snakePos[0].x > gridElements or snakePos[0].y < 0 or snakePos[0].y > gridElements:
 		_endGame()
+	#wrap logic
+	#if snakePos[0].x <0:
+	#	snakePos[0].x = gridElements
+	#if snakePos[0].x >gridElements:
+	#	snakePos[0].x = 0t
+	#if snakePos[0].y <0:
+	#	snakePos[0].y = gridElements
+	#if snakePos[0].y >gridElements:
+	#	snakePos[0].y = 0
 	
 func _selfEaten():
 	for i in snakePos.size():
@@ -148,6 +166,7 @@ func _foodEaten():
 		_growSnake()
 		_placeFood()
 		score += 1
+		audioMeow.play()
 		
 func _growSnake():
 	var currentElement = snakeElement.instantiate()
@@ -201,7 +220,6 @@ func _updateSprites():
 	var tailDir
 	if added:
 		tailDir = snakePos[snake.size()-3] - snakePos[snake.size()-2]
-		print(tailDir)	
 	else:
 		tailDir = snakePos[snake.size()-2] - snakePos[snake.size()-1]
 	

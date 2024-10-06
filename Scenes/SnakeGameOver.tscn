@@ -1,25 +1,57 @@
-[gd_scene load_steps=2 format=3 uid="uid://67a61q6xcri3"]
+[gd_scene load_steps=4 format=3 uid="uid://67a61q6xcri3"]
 
 [ext_resource type="Script" path="res://Scripts/GameOverPanel.gd" id="1_qsk6a"]
+[ext_resource type="Texture2D" uid="uid://d2u7o6cxexoh7" path="res://Sprites/menu.png" id="2_p8lfy"]
+[ext_resource type="Theme" uid="uid://jll13fsu3hdn" path="res://Styles/button.tres" id="3_k4qcr"]
 
-[node name="GameOver" type="Node2D"]
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_qsk6a")
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
+[node name="Panel" type="NinePatchRect" parent="."]
+self_modulate = Color(0.776471, 0.482353, 0.219608, 1)
 z_index = 10
-custom_minimum_size = Vector2(0, 50)
-offset_left = 367.0
-offset_top = 465.0
-offset_right = 679.0
-offset_bottom = 642.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 100)
+texture = ExtResource("2_p8lfy")
+region_rect = Rect2(0, 0, 500, 500)
+patch_margin_left = 100
+patch_margin_top = 100
+patch_margin_right = 100
+patch_margin_bottom = 100
 
 [node name="Button" type="Button" parent="Panel"]
-layout_mode = 0
-offset_left = 97.0
-offset_top = 65.0
-offset_right = 219.0
-offset_bottom = 113.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = -24.0
+offset_right = 61.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_k4qcr")
 text = "Restart"
 
 [connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]
