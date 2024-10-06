@@ -223,26 +223,16 @@ func _updateSprites():
 	else:
 		tailDir = snakePos[snake.size()-2] - snakePos[snake.size()-1]
 	
+	var segment: Node2D = snake[snake.size() - (2 if added else 1)].get_node("Sprite2D")
+	
 	if tailDir == dirUp:
-		if added:
-			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[4]
-		else:
-			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[4]
+		segment.texture = sprites[4]
 	if tailDir == dirRight:
-		if added:
-			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[5]
-		else:	
-			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[5]
+		segment.texture = sprites[5]
 	if tailDir == dirDown:
-		if added:
-			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[6]
-		else:
-			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[6]
+		segment.texture = sprites[6]
 	if tailDir == dirLeft:
-		if added:
-			snake[snake.size()-2].get_node("Sprite2D").texture = sprites[7]
-		else:
-			snake[snake.size()-1].get_node("Sprite2D").texture = sprites[7]
+		segment.texture = sprites[7]
 	
 	#update body
 	for i in snake.size()-1:
